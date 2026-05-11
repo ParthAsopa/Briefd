@@ -52,7 +52,7 @@ Staying current in cybersecurity means consuming a lot of news. Briefd is built 
 
 ```bash
 # Clone the repo
-git clone https://github.com/your-username/briefd.git
+git clone https://github.com/ParthAsopa/briefd.git
 cd briefd
 
 # Install dependencies
