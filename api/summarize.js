@@ -53,6 +53,7 @@ Respond ONLY with a JSON object in this exact format, no extra text:
 
         const data = await response.json();
         const raw = data.choices?.[0]?.message?.content || '{}';
+        console.log('RAW GROQ RESPONSE:', raw);
 
         let parsed;
         try {
