@@ -3,6 +3,8 @@ const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const TAGS = ['Breach', 'Exploit', 'CVE', 'Ransomware', 'Tool', 'Malware', 'Phishing', 'Privacy', 'Patch', 'Other'];
 
 export default async function handler(req, res) {
+  console.log('API KEY EXISTS:', !!process.env.GROQ_API_KEY);
+  console.log('API KEY PREFIX:', process.env.GROQ_API_KEY?.slice(0, 8));
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
