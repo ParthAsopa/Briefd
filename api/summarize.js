@@ -42,6 +42,15 @@ Respond ONLY with a JSON object, no markdown, no code fences, no extra text:
     const clean = raw.replace(/```json/g, '').replace(/```/g, '').trim();
     return JSON.parse(clean);
   } catch {
+    // try to extract fields manually if JSON is malformed
+    try {
+      const headline = raw.match(/"headline"\s*:\s*"([^"]+)"/)?.[1];
+      const summary = raw.match(/"summary"\s*:\s*"([^"]+)"/)?.[1];
+      const tag = raw.match(/"tag"\s*:\s*"([^"]+)"/)?.[1];
+      if (headline && summary && tag) {
+        return { headline, summary, tag };
+      }
+    } catch {}
     console.log('PARSE FAIL:', raw);
     return null;
   }
