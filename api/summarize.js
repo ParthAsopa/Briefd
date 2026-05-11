@@ -56,7 +56,11 @@ Respond ONLY with a JSON object in this exact format, no extra text:
 
         let parsed;
         try {
-          parsed = JSON.parse(raw);
+          const clean = raw
+            .replace(/```json/g, '')
+            .replace(/```/g, '')
+            .trim();
+          parsed = JSON.parse(clean);
         } catch {
           parsed = {
             headline: article.title,
