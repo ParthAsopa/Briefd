@@ -35,7 +35,6 @@ Respond ONLY with a JSON object, no markdown, no code fences, no extra text:
   }
 
   const data = await response.json();
-  console.log('GROQ DATA:', JSON.stringify(data).slice(0, 200));
   const raw = data.choices?.[0]?.message?.content || '{}';
 
   try {
