@@ -1,0 +1,34 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface2: #334155;
+  --accent: #38bdf8;
+  --text: #f1f5f9;
+  --text-muted: #94a3b8;
+  --radius: 16px;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+.masonry-grid {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+}
+
+.masonry-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
