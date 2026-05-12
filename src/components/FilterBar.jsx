@@ -6,25 +6,26 @@ export default function FilterBar({ active, onChange }) {
       display: 'flex',
       gap: '8px',
       overflowX: 'auto',
-      padding: '0 16px 12px',
+      padding: '0 24px 20px',
       scrollbarWidth: 'none',
+      borderBottom: '1px solid var(--border)',
     }}>
       {TAGS.map(tag => (
         <button
           key={tag}
           onClick={() => onChange(tag)}
           style={{
-            background: active === tag ? 'var(--accent)' : 'var(--surface2)',
-            color: active === tag ? '#080c14' : 'var(--text-muted)',
-            border: active === tag ? '1px solid var(--accent)' : '1px solid transparent',
-            borderRadius: '999px',
-            padding: '6px 14px',
+            background: active === tag ? 'var(--accent)' : 'transparent',
+            color: active === tag ? '#0a0a0a' : 'var(--text)',
+            border: active === tag ? '1px solid var(--accent)' : '1px solid var(--border)',
+            borderRadius: '6px',
+            padding: '6px 12px',
             fontSize: '12px',
-            fontWeight: 600,
+            fontWeight: 500,
             cursor: 'pointer',
             whiteSpace: 'nowrap',
             transition: 'all 0.2s ease',
-            boxShadow: active === tag ? '0 0 16px rgba(16, 185, 129, 0.3)' : 'none',
+            boxShadow: active === tag ? '0 0 8px rgba(0, 216, 77, 0.2)' : 'none',
           }}
         >
           {tag}

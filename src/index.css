@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
-
 * {
   margin: 0;
   padding: 0;
@@ -7,38 +5,43 @@
 }
 
 :root {
-  --bg: #080c14;
-  --surface: #111825;
-  --surface2: #1a2332;
-  --accent: #10b981;
-  --text: #f0f4f8;
-  --text-muted: #8b92a9;
-  --radius: 16px;
+  --bg: #0a0a0a;
+  --card-bg: #0f0f0f;
+  --border: #1a1a1a;
+  --accent: #00d84d;
+  --text: #ffffff;
+  --text-muted: #888888;
+  --radius: 8px;
 }
 
-html, body {
+html {
+  background-color: var(--bg);
+}
+
+body {
   background-color: var(--bg);
   color: var(--text);
-  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
   min-height: 100vh;
-  scroll-behavior: smooth;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Syne', system-ui, -apple-system, sans-serif;
+  font-weight: 600;
+  line-height: 1.3;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--surface);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--surface2);
+  background: #333333;
   border-radius: 4px;
 }
 
@@ -48,14 +51,14 @@ h1, h2, h3, h4, h5, h6 {
 
 .masonry-grid {
   display: flex;
-  gap: 16px;
-  padding: 16px;
+  gap: 20px;
+  padding: 24px;
 }
 
 .masonry-column {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
 
 @keyframes spin {
@@ -72,22 +75,13 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
 .skeleton {
   background: linear-gradient(
     90deg,
-    var(--surface2) 0%,
-    var(--surface) 50%,
-    var(--surface2) 100%
+    var(--border) 0%,
+    #1a1a1a 50%,
+    var(--border) 100%
   );
   background-size: 1000px 100%;
-  animation: shimmer 2s infinite;
+  animation: shimmer 1.8s infinite;
 }

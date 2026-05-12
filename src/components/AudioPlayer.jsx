@@ -8,16 +8,16 @@ export default function AudioPlayer({ state, currentIndex, totalArticles }) {
   const isActive = isPlaying || isPaused;
 
   const btnStyle = (primary = false) => ({
-    background: primary ? 'var(--accent)' : 'var(--surface2)',
-    border: 'none',
+    background: primary ? 'var(--accent)' : 'transparent',
+    border: primary ? 'none' : '1px solid var(--border)',
     borderRadius: '50%',
-    width: primary ? '48px' : '36px',
-    height: primary ? '48px' : '36px',
+    width: primary ? '40px' : '32px',
+    height: primary ? '40px' : '32px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     cursor: 'pointer',
-    color: primary ? '#080c14' : 'var(--text)',
+    color: primary ? '#0a0a0a' : 'var(--text)',
     transition: 'all 0.2s ease',
   });
 
@@ -50,25 +50,16 @@ export default function AudioPlayer({ state, currentIndex, totalArticles }) {
       bottom: 0,
       left: 0,
       right: 0,
-      backgroundColor: 'rgba(8, 12, 20, 0.95)',
-      borderTop: '1px solid var(--surface2)',
-      backdropFilter: 'blur(20px)',
+      backgroundColor: 'var(--bg)',
+      borderTop: '1px solid var(--border)',
       zIndex: 100,
     }}>
-      {isActive && (
-        <div style={{
-          height: '3px',
-          background: `linear-gradient(90deg, var(--accent) 0%, var(--accent) ${Math.random() * 100}%, var(--surface2) ${Math.random() * 100}%, var(--surface2) 100%)`,
-          transition: 'all 0.3s ease',
-        }} />
-      )}
-      
       <div style={{
-        padding: '12px 20px',
+        padding: '16px 24px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        gap: '16px',
+        gap: '20px',
       }}>
         <div style={{ 
           fontSize: '12px', 
@@ -76,8 +67,8 @@ export default function AudioPlayer({ state, currentIndex, totalArticles }) {
           minWidth: '120px',
         }}>
           {isActive
-            ? `Story ${(currentIndex ?? 0) + 1} / ${totalArticles}`
-            : 'Ready to brief you'}
+            ? `Story ${(currentIndex ?? 0) + 1} of ${totalArticles}`
+            : 'Ready to listen'}
         </div>
 
         <div style={{
