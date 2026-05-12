@@ -69,17 +69,16 @@ export default async function handler(req, res) {
   // limit to 20 to avoid timeout
   const limited = articles.slice(0, 20);
 
-  const summarized = await Promise.all(
-    limited.map(async (article) => {
-      const parsed = await summarizeOne(article);
-      return {
-        ...article,
-        headline: parsed?.headline || article.title,
-        summary: parsed?.summary || article.summary,
-        tag: parsed?.tag || 'Other',
-      };
-    })
-  );
+  const summarized = [];
+  for (const article of limited) {
+    const parsed = await summarizeOne(article);
+    summarized.push({
+      ...article,
+      headline: parsed?.headline || article.title,
+      summary: parsed?.summary || article.summary,
+      tag: parsed?.tag || 'Other',
+    });
+  }
 
   res.status(200).json({ articles: summarized });
 }
