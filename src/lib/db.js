@@ -60,3 +60,9 @@ export async function needsRefresh() {
   const twoHours = 2 * 60 * 60 * 1000;
   return Date.now() - last > twoHours;
 }
+
+//Refresh on demand
+export async function clearLastRefresh() {
+  const db = await getDB();
+  await db.delete(META_STORE, 'lastRefresh');
+}

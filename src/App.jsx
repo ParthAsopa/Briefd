@@ -5,7 +5,7 @@ import FilterBar from './components/FilterBar';
 import NewsCard from './components/NewsCard';
 import AudioPlayer from './components/AudioPlayer';
 import { refreshIfNeeded } from './lib/newsService';
-import { getLastRefresh } from './lib/db';
+import { getLastRefresh, clearLastRefresh } from './lib/db';
 import { initAudio } from './lib/audioService';
 
 const BREAKPOINTS = {
@@ -14,7 +14,9 @@ const BREAKPOINTS = {
   640: 1,
 };
 
+
 export default function App() {
+  const [refreshing, setRefreshing] = useState(false);
   const [articles, setArticles] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [activeTag, setActiveTag] = useState('All');
@@ -61,9 +63,31 @@ export default function App() {
     el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }, [playingIndex]);
 
+  async function handleRefresh() {
+    setRefreshing(true);
+    await clearLastRefresh();
+    const data = await refreshIfNeeded();
+    const last = await getLastRefresh();
+    setArticles(data);
+    setFiltered(data);
+    setLastRefreshed(last);
+    initAudio({
+      items: data,
+      onArticle: (index) => setPlayingIndex(index),
+      onDone: () => { setPlayingIndex(null); setAudioState('stopped'); },
+      onState: (state) => setAudioState(state),
+    });
+    setRefreshing(false);
+  }
+
   return (
     <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg)', paddingBottom: '80px' }}>
-      <Header articleCount={filtered.length} lastRefreshed={lastRefreshed} />
+      <Header
+  articleCount={filtered.length}
+  lastRefreshed={lastRefreshed}
+  onRefresh={handleRefresh}
+  refreshing={refreshing}
+/>
       <FilterBar active={activeTag} onChange={setActiveTag} />
 
       {loading ? (
