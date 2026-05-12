@@ -1,9 +1,9 @@
-import React from 'react';
+import { useState } from 'react';
 import { ExternalLink } from 'lucide-react';
 import TagBadge from './TagBadge';
 
 export default function NewsCard({ article, isPlaying }) {
-  const [hovering, setHovering] = React.useState(false);
+  const [hovering, setHovering] = useState(false);
 
   const timeAgo = (dateStr) => {
     const diff = Date.now() - new Date(dateStr).getTime();
