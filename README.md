@@ -2,41 +2,65 @@
 
 > Your personal audio cybersecurity news briefing.
 
-Briefd is a PWA that fetches the latest cybersecurity news from 6 major sources, summarizes each story in plain English using AI, and reads them out to you — so you stay informed without having to read a single article.
+**briefd** is a PWA that pulls the latest cybersecurity news from 6 major sources, rewrites every story in plain English using AI, and reads them out to you — so you stay on top of the threat landscape without reading a single article.
+
+🔗 **Live:** [briefdbyparth.vercel.app](https://briefdbyparth.vercel.app)
 
 ---
 
-## Why
+## The Origin
 
-Staying current in cybersecurity means consuming a lot of news. Briefd is built for people who learn better by listening than reading — it turns your daily security news into a generated audio briefing you can play like a podcast, updated automatically every 2 hours.
+A peer shared a list of cybersecurity news sites to follow as part of a career discussion. The list was solid — but the problem was having to actually sit and read through all of them. Briefd was built to solve exactly that: consume the same sources, passively, just by listening.
+
+---
+
+## The Problem
+
+Staying current in cybersecurity means consuming a lot of news. Most people in the field either spend too much time reading, or fall behind entirely. Briefd is built for people who learn better by listening — it turns your daily security news into a generated audio briefing, updated automatically every 2 hours.
 
 ---
 
 ## Features
 
-- 🎧 **Audio briefing** — hit play and listen to today's top stories read aloud
-- 🃏 **Pinterest-style card grid** — stories displayed as scannable cards that highlight as they play
-- 🏷️ **Auto-tagging** — each story is categorized as Breach, Exploit, CVE, Ransomware, Tool, Malware, Phishing, Privacy, Patch, or Other
-- 🤖 **AI summarization** — Groq (Llama 3.3) rewrites every headline and summary in casual plain English
-- 📡 **6 news sources** — SecurityWeek, The Hacker News, CyberSecurity News, Infosecurity Magazine, Dark Reading, Bleeping Computer
-- ⚡ **Auto-refresh** — fetches and summarizes new stories every 2 hours in the background
+- 🎧 **Audio briefing** — hit play and listen to today's top stories read aloud, hands-free
+- 🃏 **Masonry card grid** — Pinterest-style layout with cards that highlight as each story plays
+- 🏷️ **Auto-tagging** — every story tagged as Breach, Exploit, CVE, Ransomware, Tool, Malware, Phishing, Privacy, Patch, or Other
+- 🤖 **AI summarization** — Groq (Llama 3.3 70B) rewrites headlines and summaries in casual plain English, no jargon
+- 📡 **6 news sources** — auto-refreshed from the feeds below
+- ⚡ **Background refresh** — fetches and summarizes new stories every 2 hours automatically
 - 📦 **Offline support** — cached stories load instantly even without internet
-- 📱 **Installable** — works as a native-feeling app on Android and desktop via PWA
+- 📱 **Installable PWA** — add to home screen on Android or install as a desktop app, runs fullscreen
+- 🔄 **Force refresh** — manually trigger a fresh fetch anytime from the header
+
+---
+
+## News Sources
+
+| Source                | URL                                                                |
+| --------------------- | ------------------------------------------------------------------ |
+| SecurityWeek          | [securityweek.com](https://www.securityweek.com)                   |
+| The Hacker News       | [thehackernews.com](https://thehackernews.com)                     |
+| CyberSecurity News    | [cybersecuritynews.com](https://cybersecuritynews.com)             |
+| Infosecurity Magazine | [infosecurity-magazine.com](https://www.infosecurity-magazine.com) |
+| Dark Reading          | [darkreading.com](https://www.darkreading.com)                     |
+| Bleeping Computer     | [bleepingcomputer.com](https://www.bleepingcomputer.com)           |
 
 ---
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Frontend | React + Vite |
-| PWA | vite-plugin-pwa + Workbox |
-| Backend | Vercel Serverless Functions |
-| AI Summarization | Groq API (Llama 3.3 70B) |
-| News Sources | RSS feeds via rss-parser |
-| Local Storage | IndexedDB via idb |
-| Audio | Web Speech API (built-in, free) |
-| Hosting | Vercel (free tier) |
+| Layer            | Technology                                 |
+| ---------------- | ------------------------------------------ |
+| Frontend         | React + Vite                               |
+| PWA              | vite-plugin-pwa + Workbox                  |
+| Backend          | Vercel Serverless Functions                |
+| AI Summarization | Groq API (Llama 3.3 70B)                   |
+| News Sources     | RSS feeds via rss-parser                   |
+| Local Storage    | IndexedDB via idb                          |
+| Audio            | Web Speech API (built-in, free, no limits) |
+| Hosting          | Vercel (free tier)                         |
+
+**Entirely free to run.** No paid APIs, no paid hosting, no subscriptions.
 
 ---
 
@@ -52,8 +76,8 @@ Staying current in cybersecurity means consuming a lot of news. Briefd is built 
 
 ```bash
 # Clone the repo
-git clone https://github.com/ParthAsopa/briefd.git
-cd briefd
+git clone https://github.com/ParthAsopa/Briefd.git
+cd Briefd
 
 # Install dependencies
 npm install
@@ -78,11 +102,9 @@ vercel env pull .env.local
 
 ### Running Locally
 
-```bash
-vercel dev
-```
+Local development requires `vercel dev` to proxy the serverless functions alongside the frontend. Due to a known Vite + Vercel Dev compatibility issue on some systems, the recommended approach is to deploy your own fork to Vercel and test there — it auto-deploys on every push in seconds.
 
-App will be available at `http://localhost:3000`
+If you need local function testing, you can hit the deployed API endpoints directly from your local frontend by updating the fetch URLs in `src/lib/newsService.js` to point to your Vercel deployment.
 
 ### Deploy
 
@@ -97,10 +119,10 @@ Vercel auto-deploys on every push to main.
 ## Project Structure
 
 ```
-briefd/
+Briefd/
 ├── api/
-│   ├── fetch-news.js       # Serverless function — fetches RSS feeds
-│   └── summarize.js        # Serverless function — Groq AI summarization
+│   ├── fetch-news.js        # Serverless — fetches all 6 RSS feeds
+│   └── summarize.js         # Serverless — Groq AI summarization + tagging
 ├── public/
 │   ├── favicon.ico
 │   ├── pwa-192x192.png
@@ -108,15 +130,16 @@ briefd/
 │   └── apple-touch-icon.png
 ├── src/
 │   ├── components/
-│   │   ├── AudioPlayer.jsx  # Fixed bottom audio controls
-│   │   ├── FilterBar.jsx    # Tag filter buttons
-│   │   ├── Header.jsx       # App header with story count
-│   │   ├── NewsCard.jsx     # Individual story card
-│   │   └── TagBadge.jsx     # Colored category badge
+│   │   ├── AudioPlayer.jsx  # Bottom audio player with progress bar
+│   │   ├── FilterBar.jsx    # Tag filter pills
+│   │   ├── Header.jsx       # Sticky header with refresh button
+│   │   ├── NewsCard.jsx     # Individual story card with hover effects
+│   │   ├── SkeletonCard.jsx # Shimmer loading state
+│   │   └── TagBadge.jsx     # Color-coded category badge
 │   ├── lib/
-│   │   ├── audioService.js  # Web Speech API wrapper
-│   │   ├── db.js            # IndexedDB operations
-│   │   └── newsService.js   # Fetch + cache orchestration
+│   │   ├── audioService.js  # Web Speech API wrapper (play/pause/skip)
+│   │   ├── db.js            # IndexedDB read/write operations
+│   │   └── newsService.js   # Fetch + cache orchestration logic
 │   ├── App.jsx
 │   └── index.css
 ├── index.html
@@ -128,21 +151,38 @@ briefd/
 
 ## Installing on Android
 
-1. Open your Vercel deployment URL in Chrome
-2. Tap the three-dot menu
-3. Tap **Add to Home screen**
-4. Launch like any other app — runs fullscreen, works offline
+1. Open [briefdbyparth.vercel.app](https://briefdbyparth.vercel.app) in Chrome
+2. Tap the three-dot menu → **Add to Home screen**
+3. Launch from your home screen — runs fullscreen, works offline
+
+---
+
+## How It Works
+
+```
+Browser / PWA
+     ↓ on load or manual refresh
+Check IndexedDB cache
+     ↓ if stale (>2 hours)
+GET /api/fetch-news  →  Parses all 6 RSS feeds
+     ↓
+POST /api/summarize  →  Groq Llama 3.3 rewrites + tags each article
+     ↓
+Save to IndexedDB   →  Serve to UI instantly on next load
+     ↓
+Web Speech API reads summaries aloud on Play
+```
 
 ---
 
 ## Roadmap
 
-- [ ] Interest selection — choose your own topics beyond cybersecurity
-- [ ] More news sources
+- [ ] Interest selection — pick topics beyond cybersecurity
+- [ ] More configurable news sources
 - [ ] Playback speed control
 - [ ] Voice selection
-- [ ] Notification when new stories are available
-- [ ] Dark/light theme toggle
+- [ ] Push notifications when new stories are available
+- [ ] Light theme
 
 ---
 
@@ -155,4 +195,5 @@ GNU Affero General Public License v3.0 — see [LICENSE](LICENSE) for details.
 ## Acknowledgements
 
 Built with [Groq](https://groq.com), [Vercel](https://vercel.com), and the Web Speech API.
-News sourced from SecurityWeek, The Hacker News, CyberSecurity News, Infosecurity Magazine, Dark Reading, and Bleeping Computer.
+
+Developed with the help of [Claude](https://claude.ai) (Anthropic) for architecture, backend, and development guidance, and [v0](https://v0.dev) (Vercel) for UI design.
