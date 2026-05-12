@@ -11,8 +11,10 @@ export default function AudioPlayer({ state, currentIndex, totalArticles }) {
     background: primary ? 'var(--accent)' : 'transparent',
     border: primary ? 'none' : '1px solid var(--border)',
     borderRadius: '50%',
-    width: primary ? '40px' : '32px',
-    height: primary ? '40px' : '32px',
+    width: primary ? 'clamp(36px, 9vw, 40px)' : 'clamp(36px, 8vw, 32px)',
+    height: primary ? 'clamp(36px, 9vw, 40px)' : 'clamp(36px, 8vw, 32px)',
+    minWidth: primary ? 'clamp(36px, 9vw, 40px)' : 'clamp(36px, 8vw, 32px)',
+    minHeight: primary ? 'clamp(36px, 9vw, 40px)' : 'clamp(36px, 8vw, 32px)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -72,16 +74,19 @@ export default function AudioPlayer({ state, currentIndex, totalArticles }) {
       </div>
       
       <div style={{
-        padding: '16px 24px',
+        padding: 'clamp(12px, 3vw, 16px) clamp(16px, 4vw, 24px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        gap: '20px',
+        gap: 'clamp(12px, 3vw, 20px)',
       }}>
         <div style={{ 
-          fontSize: '12px', 
+          fontSize: 'clamp(10px, 2.5vw, 12px)', 
           color: 'var(--text-muted)',
           minWidth: 'auto',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
         }}>
           {isActive
             ? `Story ${(currentIndex ?? 0) + 1} of ${totalArticles}`
@@ -91,7 +96,7 @@ export default function AudioPlayer({ state, currentIndex, totalArticles }) {
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '12px',
+          gap: 'clamp(8px, 2vw, 12px)',
           flex: 1,
           justifyContent: 'center',
         }}>
@@ -127,16 +132,16 @@ export default function AudioPlayer({ state, currentIndex, totalArticles }) {
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
-          minWidth: '80px',
+          gap: 'clamp(4px, 1.5vw, 8px)',
+          minWidth: 'auto',
           justifyContent: 'flex-end',
         }}>
           {isActive && <Equalizer />}
           <div style={{
-            fontSize: '12px',
+            fontSize: 'clamp(10px, 2.5vw, 12px)',
             color: 'var(--accent)',
             fontWeight: 600,
-            minWidth: '50px',
+            minWidth: 'auto',
             textAlign: 'right',
           }}>
             {isPlaying ? '♫ Playing' : isPaused ? '⏸ Paused' : ''}
