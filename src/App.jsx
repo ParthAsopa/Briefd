@@ -4,6 +4,7 @@ import Header from './components/Header';
 import FilterBar from './components/FilterBar';
 import NewsCard from './components/NewsCard';
 import AudioPlayer from './components/AudioPlayer';
+import SkeletonCard from './components/SkeletonCard';
 import { refreshIfNeeded } from './lib/newsService';
 import { getLastRefresh, clearLastRefresh } from './lib/db';
 import { initAudio } from './lib/audioService';
@@ -91,9 +92,15 @@ export default function App() {
       <FilterBar active={activeTag} onChange={setActiveTag} />
 
       {loading ? (
-        <div style={{ textAlign: 'center', padding: '60px', color: 'var(--text-muted)' }}>
-          Fetching and summarizing today's stories...
-        </div>
+        <Masonry
+          breakpointCols={BREAKPOINTS}
+          className="masonry-grid"
+          columnClassName="masonry-column"
+        >
+          {Array.from({ length: 6 }).map((_, i) => (
+            <SkeletonCard key={`skeleton-${i}`} />
+          ))}
+        </Masonry>
       ) : filtered.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '60px', color: 'var(--text-muted)' }}>
           No stories found.

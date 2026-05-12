@@ -11,15 +11,38 @@ export default function AudioPlayer({ state, currentIndex, totalArticles }) {
     background: primary ? 'var(--accent)' : 'var(--surface2)',
     border: 'none',
     borderRadius: '50%',
-    width: primary ? '52px' : '40px',
-    height: primary ? '52px' : '40px',
+    width: primary ? '48px' : '36px',
+    height: primary ? '48px' : '36px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     cursor: 'pointer',
-    color: primary ? '#0f172a' : 'var(--text)',
+    color: primary ? '#080c14' : 'var(--text)',
     transition: 'all 0.2s ease',
   });
+
+  const Equalizer = () => (
+    <div style={{
+      display: 'flex',
+      alignItems: 'flex-end',
+      gap: '3px',
+      height: '20px',
+    }}>
+      {[0, 1, 2].map(i => (
+        <div
+          key={i}
+          style={{
+            width: '3px',
+            height: isPlaying ? `${40 + Math.random() * 60}%` : '40%',
+            backgroundColor: 'var(--accent)',
+            borderRadius: '2px',
+            animation: isPlaying ? `none` : 'none',
+            transition: isPlaying ? 'height 0.1s ease' : 'none',
+          }}
+        />
+      ))}
+    </div>
+  );
 
   return (
     <div style={{
@@ -27,53 +50,90 @@ export default function AudioPlayer({ state, currentIndex, totalArticles }) {
       bottom: 0,
       left: 0,
       right: 0,
-      backgroundColor: '#0d1f35',
+      backgroundColor: 'rgba(8, 12, 20, 0.95)',
       borderTop: '1px solid var(--surface2)',
-      padding: '12px 20px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
+      backdropFilter: 'blur(20px)',
       zIndex: 100,
-      backdropFilter: 'blur(10px)',
     }}>
-      <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-        {isActive
-          ? `Story ${(currentIndex ?? 0) + 1} of ${totalArticles}`
-          : 'Ready to brief you'}
-      </div>
+      {isActive && (
+        <div style={{
+          height: '3px',
+          background: `linear-gradient(90deg, var(--accent) 0%, var(--accent) ${Math.random() * 100}%, var(--surface2) ${Math.random() * 100}%, var(--surface2) 100%)`,
+          transition: 'all 0.3s ease',
+        }} />
+      )}
+      
+      <div style={{
+        padding: '12px 20px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: '16px',
+      }}>
+        <div style={{ 
+          fontSize: '12px', 
+          color: 'var(--text-muted)',
+          minWidth: '120px',
+        }}>
+          {isActive
+            ? `Story ${(currentIndex ?? 0) + 1} / ${totalArticles}`
+            : 'Ready to brief you'}
+        </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-        <button style={btnStyle()} onClick={skipPrev}>
-          <SkipBack size={16} />
-        </button>
-
-        {isPlaying ? (
-          <button style={btnStyle(true)} onClick={pause}>
-            <Pause size={20} />
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          flex: 1,
+          justifyContent: 'center',
+        }}>
+          <button style={btnStyle()} onClick={skipPrev} title="Previous">
+            <SkipBack size={14} />
           </button>
-        ) : isPaused ? (
-          <button style={btnStyle(true)} onClick={resume}>
-            <Play size={20} />
-          </button>
-        ) : (
-          <button style={btnStyle(true)} onClick={play}>
-            <Play size={20} />
-          </button>
-        )}
 
-        <button style={btnStyle()} onClick={skipNext}>
-          <SkipForward size={16} />
-        </button>
+          {isPlaying ? (
+            <button style={btnStyle(true)} onClick={pause}>
+              <Pause size={20} />
+            </button>
+          ) : isPaused ? (
+            <button style={btnStyle(true)} onClick={resume}>
+              <Play size={20} />
+            </button>
+          ) : (
+            <button style={btnStyle(true)} onClick={play}>
+              <Play size={20} />
+            </button>
+          )}
 
-        {isActive && (
-          <button style={btnStyle()} onClick={stop}>
-            <Square size={16} />
+          <button style={btnStyle()} onClick={skipNext} title="Next">
+            <SkipForward size={14} />
           </button>
-        )}
-      </div>
 
-      <div style={{ fontSize: '13px', color: 'var(--accent)', fontWeight: 600 }}>
-        {isPlaying ? '▶ Playing' : isPaused ? '⏸ Paused' : ''}
+          {isActive && (
+            <button style={btnStyle()} onClick={stop} title="Stop">
+              <Square size={14} />
+            </button>
+          )}
+        </div>
+
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          minWidth: '80px',
+          justifyContent: 'flex-end',
+        }}>
+          {isActive && <Equalizer />}
+          <div style={{
+            fontSize: '12px',
+            color: 'var(--accent)',
+            fontWeight: 600,
+            minWidth: '50px',
+            textAlign: 'right',
+          }}>
+            {isPlaying ? '♫ Playing' : isPaused ? '⏸ Paused' : ''}
+          </div>
+        </div>
       </div>
     </div>
   );

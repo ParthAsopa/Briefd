@@ -14,9 +14,9 @@ export default function FilterBar({ active, onChange }) {
           key={tag}
           onClick={() => onChange(tag)}
           style={{
-            background: active === tag ? 'var(--accent)' : 'var(--surface)',
-            color: active === tag ? '#0f172a' : 'var(--text-muted)',
-            border: 'none',
+            background: active === tag ? 'var(--accent)' : 'var(--surface2)',
+            color: active === tag ? '#080c14' : 'var(--text-muted)',
+            border: active === tag ? '1px solid var(--accent)' : '1px solid transparent',
             borderRadius: '999px',
             padding: '6px 14px',
             fontSize: '12px',
@@ -24,6 +24,7 @@ export default function FilterBar({ active, onChange }) {
             cursor: 'pointer',
             whiteSpace: 'nowrap',
             transition: 'all 0.2s ease',
+            boxShadow: active === tag ? '0 0 16px rgba(16, 185, 129, 0.3)' : 'none',
           }}
         >
           {tag}

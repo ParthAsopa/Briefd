@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -5,20 +7,43 @@
 }
 
 :root {
-  --bg: #0f172a;
-  --surface: #1e293b;
-  --surface2: #334155;
-  --accent: #38bdf8;
-  --text: #f1f5f9;
-  --text-muted: #94a3b8;
+  --bg: #080c14;
+  --surface: #111825;
+  --surface2: #1a2332;
+  --accent: #10b981;
+  --text: #f0f4f8;
+  --text-muted: #8b92a9;
   --radius: 16px;
 }
 
-body {
+html, body {
   background-color: var(--bg);
   color: var(--text);
-  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-family: 'DM Sans', system-ui, sans-serif;
   min-height: 100vh;
+  scroll-behavior: smooth;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Syne', system-ui, sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
 }
 
 .masonry-grid {
@@ -36,4 +61,24 @@ body {
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface2) 0%,
+    var(--surface) 50%,
+    var(--surface2) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
 }
