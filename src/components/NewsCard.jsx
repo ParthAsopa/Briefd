@@ -2,8 +2,22 @@ import { useState } from 'react';
 import { ExternalLink } from 'lucide-react';
 import TagBadge from './TagBadge';
 
+const TAG_COLORS = {
+  Breach: '#ff4444',
+  Exploit: '#ff8844',
+  CVE: '#ffcc00',
+  Ransomware: '#bb88ff',
+  Tool: '#44ff44',
+  Malware: '#ff4488',
+  Phishing: '#ff5555',
+  Privacy: '#4488ff',
+  Patch: '#44ffdd',
+  Other: '#999999',
+};
+
 export default function NewsCard({ article, isPlaying }) {
   const [hovering, setHovering] = useState(false);
+  const tagColor = TAG_COLORS[article.tag] || TAG_COLORS.Other;
 
   const timeAgo = (dateStr) => {
     const diff = Date.now() - new Date(dateStr).getTime();
@@ -20,27 +34,29 @@ export default function NewsCard({ article, isPlaying }) {
       onMouseLeave={() => setHovering(false)}
       style={{
         backgroundColor: 'var(--card-bg)',
-        border: isPlaying ? '1px solid var(--accent)' : '1px solid var(--border)',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
         borderRadius: '8px',
         padding: '20px',
+        paddingLeft: '18px',
         cursor: 'pointer',
-        transition: 'all 0.2s ease',
-        boxShadow: isPlaying ? '0 0 12px rgba(0, 216, 77, 0.15)' : 'none',
+        transition: 'all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        boxShadow: hovering 
+          ? '0 8px 24px rgba(0, 0, 0, 0.4)' 
+          : '0 2px 8px rgba(0, 0, 0, 0.2)',
+        transform: hovering ? 'translateY(-2px)' : 'translateY(0)',
         position: 'relative',
         overflow: 'hidden',
       }}
       onClick={() => window.open(article.link, '_blank')}
     >
-      {isPlaying && (
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '2px',
-          backgroundColor: 'var(--accent)',
-        }} />
-      )}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        width: '2px',
+        backgroundColor: tagColor,
+      }} />
 
       <div style={{ marginBottom: '12px' }}>
         <TagBadge tag={article.tag} />

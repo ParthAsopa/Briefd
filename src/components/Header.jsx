@@ -1,6 +1,10 @@
 import { RefreshCw } from 'lucide-react';
 
 export default function Header({ articleCount, lastRefreshed, onRefresh, refreshing }) {
+  const timeStr = lastRefreshed
+    ? new Date(lastRefreshed).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    : 'Never';
+
   return (
     <div style={{
       position: 'sticky',
@@ -32,24 +36,8 @@ export default function Header({ articleCount, lastRefreshed, onRefresh, refresh
             color: 'var(--text-muted)',
             whiteSpace: 'nowrap',
           }}>
-            {articleCount} stories
+            {articleCount} stories · updated {timeStr}
           </span>
-          
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            color: 'var(--accent)',
-            fontSize: '12px',
-          }}>
-            <div style={{
-              width: '8px',
-              height: '8px',
-              borderRadius: '50%',
-              backgroundColor: 'var(--accent)',
-            }} />
-            System Online
-          </div>
 
           <button
             onClick={onRefresh}

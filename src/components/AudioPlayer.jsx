@@ -44,6 +44,10 @@ export default function AudioPlayer({ state, currentIndex, totalArticles }) {
     </div>
   );
 
+  const progressPercent = isActive && totalArticles > 0 
+    ? ((currentIndex ?? 0) + 1) / totalArticles * 100 
+    : 0;
+
   return (
     <div style={{
       position: 'fixed',
@@ -55,6 +59,19 @@ export default function AudioPlayer({ state, currentIndex, totalArticles }) {
       zIndex: 100,
     }}>
       <div style={{
+        height: '2px',
+        backgroundColor: 'transparent',
+        position: 'relative',
+      }}>
+        <div style={{
+          height: '100%',
+          width: `${progressPercent}%`,
+          backgroundColor: 'var(--accent)',
+          transition: 'width 0.3s ease',
+        }} />
+      </div>
+      
+      <div style={{
         padding: '16px 24px',
         display: 'flex',
         alignItems: 'center',
@@ -64,11 +81,11 @@ export default function AudioPlayer({ state, currentIndex, totalArticles }) {
         <div style={{ 
           fontSize: '12px', 
           color: 'var(--text-muted)',
-          minWidth: '120px',
+          minWidth: 'auto',
         }}>
           {isActive
             ? `Story ${(currentIndex ?? 0) + 1} of ${totalArticles}`
-            : 'Ready to listen'}
+            : ''}
         </div>
 
         <div style={{
